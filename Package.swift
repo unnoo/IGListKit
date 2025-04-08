@@ -9,29 +9,28 @@ let package = Package(
     ],
     products: [
         .library(name: "IGListDiffKit",
-                 type: .static,
                  targets: ["IGListDiffKit"]),
         .library(name: "IGListKit",
-                 type: .static,
                  targets: ["IGListKit"]),
         .library(name: "IGListSwiftKit",
-                 type: .static,
                  targets: ["IGListSwiftKit"]),
     ],
     targets: [
         .target(
             name: "IGListDiffKit",
-            path: "spm/Sources/IGListDiffKit"
+            path: "spm/Sources/IGListDiffKit",
+            publicHeadersPath: "include"
         ),
         .target(
             name: "IGListKit",
             dependencies: ["IGListDiffKit"],
-            path: "spm/Sources/IGListKit"
+            path: "spm/Sources/IGListKit",
+            publicHeadersPath: "include"
         ),
         .target(
             name: "IGListSwiftKit",
             dependencies: ["IGListKit"],
-            path: "Source/IGListSwiftKit"
+            path: "spm/Sources/IGListSwiftKit"
         ),
     ],
     cLanguageStandard: .c11,

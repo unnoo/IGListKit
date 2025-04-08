@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>IGListBindingSingleSectionController Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Class/IGListBindingSingleSectionController" class="dashAnchor"></a>
+    <a title="IGListBindingSingleSectionController Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">IGListKit 4.1.0 Docs</a> (96% documented)</p>
+        <p class="header-right"><a href="https://github.com/Instagram/IGListKit"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">IGListKit</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        <a href="../Classes.html">Classes</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        IGListBindingSingleSectionController Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Guides.html">Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../best-practices-and-faq.html">Best Practices and FAQ</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../generating-your-models-using-remodel.html">Generating your models using remodel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../getting-started.html">Getting Started</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../iglistdiffable-and-equality.html">IGListDiffable and Equality</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../installation.html">Installation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../migration.html">Migration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../modeling-and-binding.html">Modeling and Binding</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../vision.html">VISION</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../working-with-core-data.html">Working with Core Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../working-with-uicollectionview.html">Working with UICollectionView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/IGListAdapter.html">IGListAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListAdapterUpdater.html">IGListAdapterUpdater</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListBatchUpdateData.html">IGListBatchUpdateData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListBindingSectionController.html">IGListBindingSectionController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListBindingSingleSectionController.html">IGListBindingSingleSectionController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListCollectionView.html">IGListCollectionView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListCollectionViewLayout.html">IGListCollectionViewLayout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListGenericSectionController.html">IGListGenericSectionController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListIndexPathResult.html">IGListIndexPathResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListIndexSetResult.html">IGListIndexSetResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListMoveIndex.html">IGListMoveIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListMoveIndexPath.html">IGListMoveIndexPath</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)IGListReloadDataUpdater">IGListReloadDataUpdater</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListSectionController.html">IGListSectionController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListSingleSectionController.html">IGListSingleSectionController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IGListTransitionData.html">IGListTransitionData</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@IGListKitVersionNumber">IGListKitVersionNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@IGListKitVersionString">IGListKitVersionString</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/IGListAdapterUpdateType.html">IGListAdapterUpdateType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/IGListDiffOption.html">IGListDiffOption</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/IGListExperiment.html">IGListExperiment</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterDataSource.html">IGListAdapterDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterDelegate.html">IGListAdapterDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterMoveDelegate.html">IGListAdapterMoveDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterPerformanceDelegate.html">IGListAdapterPerformanceDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterUpdateListener.html">IGListAdapterUpdateListener</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListAdapterUpdaterDelegate.html">IGListAdapterUpdaterDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListBatchContext.html">IGListBatchContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListBindable.html">IGListBindable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListBindingSectionControllerDataSource.html">IGListBindingSectionControllerDataSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListBindingSectionControllerSelectionDelegate.html">IGListBindingSectionControllerSelectionDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListCollectionContext.html">IGListCollectionContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListCollectionViewDelegateLayout.html">IGListCollectionViewDelegateLayout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListCollectionViewLayoutCompatible.html">IGListCollectionViewLayoutCompatible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListDiffable.html">IGListDiffable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListDisplayDelegate.html">IGListDisplayDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListScrollDelegate.html">IGListScrollDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListSingleSectionControllerDelegate.html">IGListSingleSectionControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListSupplementaryViewSource.html">IGListSupplementaryViewSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListTransitionDelegate.html">IGListTransitionDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListUpdatingDelegate.html">IGListUpdatingDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/IGListWorkingRangeDelegate.html">IGListWorkingRangeDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions/IGListCollectionScrollingTraits.html">IGListCollectionScrollingTraits</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListCollectionViewBlock">IGListCollectionViewBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListDataSourceChangeBlock">IGListDataSourceChangeBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListItemUpdateBlock">IGListItemUpdateBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListObjectTransitionBlock">IGListObjectTransitionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListReloadUpdateBlock">IGListReloadUpdateBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListSingleSectionController.h@T@IGListSingleSectionCellConfigureBlock">IGListSingleSectionCellConfigureBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListSingleSectionController.h@T@IGListSingleSectionCellSizeBlock">IGListSingleSectionCellSizeBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListToObjectBlock">IGListToObjectBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListTransitionDataApplyBlock">IGListTransitionDataApplyBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListTransitionDataBlock">IGListTransitionDataBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListAdapter.h@T@IGListUpdaterCompletion">IGListUpdaterCompletion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:IGListUpdatingDelegate.h@T@IGListUpdatingCompletion">IGListUpdatingCompletion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@IGListDiff">IGListDiff</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@IGListDiffPaths">IGListDiffPaths</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:IGListExperiments.h@F@IGListExperimentEnabled">IGListExperimentEnabled</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/IGListCollectionScrollingTraits.html">IGListCollectionScrollingTraits</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>IGListBindingSingleSectionController</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code>
+<span class="k">@interface</span> <span class="nc">IGListBindingSingleSectionController</span><span class="o">&lt;</span>
+    <span class="n">__covariant</span> <span class="n">ViewModel</span> <span class="o">:</span> <span class="n">id</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/IGListDiffable.html">IGListDiffable</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Cell</span> <span class="o">:</span> <span class="n">UICollectionViewCell</span> <span class="o">*&gt;</span>
+    <span class="o">:</span> <span class="n"><a href="../Classes/IGListSectionController.html">IGListSectionController</a></span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ListBindingSingleSectionController</span><span class="o">&lt;</span><span class="kt">ViewModel</span><span class="p">,</span> <span class="kt">Cell</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">ListSectionController</span> <span class="k">where</span> <span class="kt">ViewModel</span> <span class="p">:</span> <span class="kt">ListDiffable</span><span class="p">,</span> <span class="kt">Cell</span> <span class="p">:</span> <span class="kt">UICollectionViewCell</span></code></pre>
+
+                </div>
+              </div>
+            <p>Special section controller that only contains a single item, and it will apply the view model update during -didUpdateObject: call, usually happened inside -[UICollectionView performBatchUpdates:completion:].</p>
+
+<p>This class is intended to be subclassed.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Subclass"></a>
+                <a name="//apple_ref/objc/Section/Subclass" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Subclass"></a>
+                  <h3 class="section-name"><span>Subclass</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)cellClass"></a>
+                    <a name="//apple_ref/objc/Method/-cellClass" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)cellClass">-cellClass</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="n">cellClass</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cellClass</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyClass</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)configureCell:withViewModel:"></a>
+                    <a name="//apple_ref/objc/Method/-configureCell:withViewModel:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)configureCell:withViewModel:">-configureCell:<wbr>withViewModel:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">configureCell</span><span class="p">:(</span><span class="n">Cell</span><span class="p">)</span><span class="nv">cell</span> <span class="nf">withViewModel</span><span class="p">:(</span><span class="n">ViewModel</span><span class="p">)</span><span class="nv">viewModel</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">configureCell</span><span class="p">(</span><span class="n">_</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">,</span> <span class="n">withViewModel</span> <span class="nv">viewModel</span><span class="p">:</span> <span class="kt">ViewModel</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)sizeForViewModel:"></a>
+                    <a name="//apple_ref/objc/Method/-sizeForViewModel:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)sizeForViewModel:">-sizeForViewModel:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nf">sizeForViewModel</span><span class="p">:(</span><span class="n">ViewModel</span><span class="p">)</span><span class="nv">viewModel</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">size</span><span class="p">(</span><span class="n">forViewModel</span> <span class="nv">viewModel</span><span class="p">:</span> <span class="kt">ViewModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CGSize</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)didSelectItemWithCell:"></a>
+                    <a name="//apple_ref/objc/Method/-didSelectItemWithCell:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)didSelectItemWithCell:">-didSelectItemWithCell:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didSelectItemWithCell</span><span class="p">:(</span><span class="n">Cell</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didSelectItem</span><span class="p">(</span><span class="n">with</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)didDeselectItemWithCell:"></a>
+                    <a name="//apple_ref/objc/Method/-didDeselectItemWithCell:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)didDeselectItemWithCell:">-didDeselectItemWithCell:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didDeselectItemWithCell</span><span class="p">:(</span><span class="n">Cell</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didDeselectItem</span><span class="p">(</span><span class="n">with</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)didHighlightItemWithCell:"></a>
+                    <a name="//apple_ref/objc/Method/-didHighlightItemWithCell:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)didHighlightItemWithCell:">-didHighlightItemWithCell:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didHighlightItemWithCell</span><span class="p">:(</span><span class="n">Cell</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didHighlightItem</span><span class="p">(</span><span class="n">with</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)didUnhighlightItemWithCell:"></a>
+                    <a name="//apple_ref/objc/Method/-didUnhighlightItemWithCell:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)didUnhighlightItemWithCell:">-didUnhighlightItemWithCell:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didUnhighlightItemWithCell</span><span class="p">:(</span><span class="n">Cell</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didUnhighlightItem</span><span class="p">(</span><span class="n">with</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">Cell</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)IGListBindingSingleSectionController(im)isDisplayingCell"></a>
+                    <a name="//apple_ref/objc/Method/-isDisplayingCell" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)IGListBindingSingleSectionController(im)isDisplayingCell">-isDisplayingCell</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isDisplayingCell</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isDisplayingCell</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2024 <a class="link" href="https://twitter.com/MetaOpenSource" target="_blank" rel="external noopener">Instagram</a>. All rights reserved. (Last updated: 2024-05-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
