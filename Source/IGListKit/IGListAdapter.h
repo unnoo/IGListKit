@@ -15,11 +15,19 @@
 #import <IGListDiffKit/IGListMacros.h>
 #endif
 
+#if !__has_include(<IGListKit/IGListKit.h>)
 #import "IGListAdapterDataSource.h"
 #import "IGListAdapterDelegate.h"
 #import "IGListAdapterMoveDelegate.h"
 #import "IGListAdapterPerformanceDelegate.h"
 #import "IGListAdapterUpdateListener.h"
+#else
+#import <IGListKit/IGListAdapterDataSource.h>
+#import <IGListKit/IGListAdapterDelegate.h>
+#import <IGListKit/IGListAdapterMoveDelegate.h>
+#import <IGListKit/IGListAdapterPerformanceDelegate.h>
+#import <IGListKit/IGListAdapterUpdateListener.h>
+#endif
 
 @protocol IGListUpdatingDelegate;
 
@@ -104,6 +112,12 @@ NS_SWIFT_NAME(ListAdapter)
  */
 @property (nonatomic, assign) IGListExperiment experiments;
 
+/**
+ When true, we automatically deselect cells after they are selected (animated), so each section-controller doesn't have to.
+ Note this doesn't apply to selection via `-selectItemAtIndexPath`, since those do not receive a delegate callback.
+ Default is false.
+ */
+@property (nonatomic, assign) BOOL autoDeselectEnabled;
 
 /**
  Initializes a new `IGListAdapter` object.

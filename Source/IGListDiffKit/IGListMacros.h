@@ -24,7 +24,11 @@
 #endif
 
 #ifndef IGLK_DEBUG_DESCRIPTION_ENABLED
+#ifdef DEBUG
 #define IGLK_DEBUG_DESCRIPTION_ENABLED DEBUG
+#else
+#define IGLK_DEBUG_DESCRIPTION_ENABLED 0
+#endif // #ifdef DEBUG
 #endif // #ifndef IGLK_DEBUG_DESCRIPTION_ENABLED
 
 #define IGLK_BLOCK_CALL_SAFE(BLOCK, ...) \
@@ -34,3 +38,20 @@
            ig_safe_block(__VA_ARGS__); \
        } \
    } while (NO)
+
+/*
+  E.g.
+  switch (direction) {
+    case UICollectionViewScrollDirectionHorizontal:
+        ...
+    case UICollectionViewScrollDirectionVertical:
+        ...
+    default:
+      IGLK_UNEXPECTED_SWITCH_CASE_ABORT(UICollectionViewScrollDirection, direction);
+  }
+*/
+#define IGLK_UNEXPECTED_SWITCH_CASE_ABORT(type, value) ({ \
+    type value__##__LINE__ = (value); \
+    fprintf(stderr, "Unexpected " #type " : %ld\n", (long)(value__##__LINE__)); \
+    abort(); \
+})

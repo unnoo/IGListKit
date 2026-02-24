@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, IGListDiffingSectionState) {
         }
 
         self.state = IGListDiffingSectionStateUpdateApplied;
-    } completion:^(BOOL finished) {
+    } completion:^(BOOL __unused finished) {
         self.state = IGListDiffingSectionStateIdle;
         if (completion != nil) {
             completion(YES);
@@ -100,7 +100,10 @@ typedef NS_ENUM(NSInteger, IGListDiffingSectionState) {
 }
 
 - (CGSize)sizeForItemAtIndex:(NSInteger)index {
-    return [self.dataSource sectionController:self sizeForViewModel:self.viewModels[index] atIndex:index];
+    if (index >= 0 && index < (NSInteger)self.viewModels.count) {
+        return [self.dataSource sectionController:self sizeForViewModel:self.viewModels[index] atIndex:index];
+    }
+    return CGSizeZero;
 }
 
 - (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
@@ -153,5 +156,14 @@ typedef NS_ENUM(NSInteger, IGListDiffingSectionState) {
 - (void)didUnhighlightItemAtIndex:(NSInteger)index {
     [self.selectionDelegate sectionController:self didUnhighlightItemAtIndex:index viewModel:self.viewModels[index]];
 }
+
+#if !TARGET_OS_TV
+- (UIContextMenuConfiguration *)contextMenuConfigurationForItemAtIndex:(NSInteger)index point:(CGPoint)point {
+    if (![self.selectionDelegate respondsToSelector:@selector(sectionController:contextMenuConfigurationForItemAtIndex:point:viewModel:)]) {
+        return nil;
+    }
+    return [self.selectionDelegate sectionController:self contextMenuConfigurationForItemAtIndex:index point:point viewModel:self.viewModels[index]];
+}
+#endif
 
 @end

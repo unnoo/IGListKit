@@ -13,7 +13,11 @@
 #import <IGListDiffKit/IGListMacros.h>
 #endif
 
+#if !__has_include(<IGListKit/IGListKit.h>)
 #import "IGListCollectionViewLayoutCompatible.h"
+#else
+#import <IGListKit/IGListCollectionViewLayoutCompatible.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -98,6 +102,11 @@ NS_SWIFT_NAME(ListCollectionViewLayout)
 @property (nonatomic, assign) BOOL showHeaderWhenEmpty;
 
 /**
+ Set this to `YES` to keep layout cache when invalidateLayout is called. Default is `NO`.
+*/
+@property (nonatomic, assign) BOOL preserveLayoutCacheOnInvalidateLayout;
+
+/**
  Create and return a new collection view layout.
 
  @param stickyHeaders Set to `YES` to stick section headers to the top of the bounds while scrolling.
@@ -134,6 +143,11 @@ NS_SWIFT_NAME(ListCollectionViewLayout)
  :nodoc:
  */
 + (instancetype)new NS_UNAVAILABLE;
+
+/**
+ :nodoc:
+ */
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 
 @end
 

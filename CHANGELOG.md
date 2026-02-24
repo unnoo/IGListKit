@@ -2,19 +2,67 @@
 
 The changelog for `IGListKit`. Also see the [releases](https://github.com/instagram/IGListKit/releases) on GitHub.
 
-5.1.0 (Upcoming Release)
+5.3.0 (Upcoming Release)
+-----
+
+5.2.0
 -----
 
 ### Enhancements
+
+- Added a more defensive check for NaN values in item bounds when applying layout attributes in `-[IGListCollectionViewLayout layoutAttributesForItemAtIndexPath:]`. Minqi Ma [(358fe894)](https://github.com/Instagram/IGListKit/commit/358fe894f2c66a14ac1eda7ba09a2de158373cd5)
+
+- Improved assertion details in `IGListAdapter+UICollectionView.m`. [Maxime Ollivier](https://github.com/maxolls)  [(7240131c)](https://github.com/Instagram/IGListKit/commit/7240131ceaa7784bfed60fdb9a623e3b7f4cdf5b)
+
+- Formalized assertions that `IGListAdapterDelegateAnnouncer` is main-thread confined. Andrew Cuneo [(7dddb0d4)](https://github.com/Instagram/IGListKit/commit/7dddb0d4c83c14a3cade15a24a9df5b61f7a6836)
+
+### Fixes
+
+- An `EXC_BAD_ACCESS` crash in `IGListSectionMap.m` during `IGListAdapter` deallocation. [Hoà V. DINH](https://github.com/dinhvh) [(d1ddab8e)](https://github.com/Instagram/IGListKit/commit/d1ddab8e20fe8b3effc70dc878697e0f421f9a25)
+
+- A crash where an index value provided to `-[IGListBindingSectionController sizeForItemAtIndex:]` was out of bounds. Kaur Ishnoor [(0a0b11bd)](https://github.com/Instagram/IGListKit/commit/0a0b11bdc81d96aa6525d558715bc46d91393711)
+
+5.1.0
+-----
+
+### Breaking Changes
+
+- Added methods to the `IGListAdapterDelegate` to include callback methods for any time a cell will appear or did disappear from the screen.  This can be used in conjunction with the `IGListAdapterDelegateAnnouncer` to listen globally for cell lifecycle events.  Any implementer of `IGListAdapterDelegate` must update to include these methods. [Jesse Seidman](https://github.com/jseidman95) [(fa50aa1c)](https://github.com/Instagram/IGListKit/commit/fa50aa1cf1be85940787e211d23eb5e7873dbf24), [(d1d6f9d5)](https://github.com/Instagram/IGListKit/commit/d1d6f9d52caef89efd11444161ac341266d36ccf), [(03049f74)](https://github.com/Instagram/IGListKit/commit/03049f742f46a6ac28abedd249d176cac4694990)
+
+- Added `willCrash` delegate methods in order to capture incoming crashes in IGListKit for analysis. Any implementer of `IGListAdapterUpdaterDelegate` and/or `IGListUpdatingDelegate` must update to include these methods. [Hoà V. DINH](https://github.com/dinhvh) [(da1050ef)](https://github.com/Instagram/IGListKit/commit/da1050ef397c9cf38e88ac047196fe53fe6febb0)
+
+### Enhancements
+
+- Replaced CocoaPods with SPM as the new dependency manager of `IGListKit.xcodeproj` when running unit tests. [Tim Oliver](https://github.com/timoliver) [(2964f066)](https://github.com/Instagram/IGListKit/commit/2964f066a3b0ad533f2eeda71096caeb0b54500a)
 
 - Added handling for new collection view cell dequeue behavior in iOS 18 [Maxime Ollivier](https://github.com/maxolls) [(4bad7d52)](https://github.com/Instagram/IGListKit/commit/4bad7d52604c695e48c0c161fed631aad8511449)
 
 - Added support for Swift Concurrency [Mark Davis](https://instagram.com/m4rk) [(0ec2d52)](https://github.com/Instagram/IGListKit/commit/0ec2d526f35374dc0366024f8bb62aac4db1fd8d)
 
+- Exposed an option to disable layout cache invalidation when new items are inserted [Constantine Fry](https://github.com/constantine-fry) [(700905e)](https://github.com/Instagram/IGListKit/commit/700905e628bf56abebce5bbdb0698ecade3c9842)
+
+- Exposed `IGListCollectionViewLayoutInvalidationContext` as a public interface [(1560956)](https://github.com/Instagram/IGListKit/commit/1560956da3ce27e1816c641541dbdc616cf5ef56)
+
+- Annotated main API classes with `NS_SWIFT_UI_ACTOR` in preparation of moving to Swift 6 [Cory Wilhite](https://github.com/corywilhite) [(a28d835)](https://github.com/Instagram/IGListKit/commit/a28d835b739af5136841622854b276d07cda7852)
+
+- Added `autoDeselectEnabled` on `IGListAdapter` to free each section-controller from having to do this and avoid bugs [Maxime Ollivier](https://github.com/maxolls) [(fec6b0e)](https://github.com/Instagram/IGListKit/commit/fec6b0ef0f4a0224519b868cb51600ad3fdf6923)
+
+- Added `associatedListAdapters` as a property of `UIViewController` to track `IGListAdapter` instances bound to that view controller. [Maxime Ollivier](https://github.com/maxolls) [(9c0ef52)](https://github.com/Instagram/IGListKit/commit/9c0ef5271583fadaa10fda6340794c20bcf609b2)
+
+- Added assert when a section's `diffIdentifier` changed before an update starts, which could manifest in a few different crashes [Maxime Ollivier](https://github.com/maxolls) [(64ba471)](https://github.com/Instagram/IGListKit/commit/64ba4712012f074acbafa3fee05aefb28fa06fd2)
+
+- Added support for iOS 13 Context Menus with `contextMenuConfigurationForItemAt` method. [Jérôme B.](https://github.com/jeromeboursier) [(23daf6d)](https://github.com/Instagram/IGListKit/commit/23daf6de7290198b775062d04906ba3019519ff0).
+
+### Fixes
+
+- A crash that could periodically occur when collection view layout attributes were `nil` [(6e91299)](https://github.com/Instagram/IGListKit/commit/6e9129978e0e3537aec53eea2d6909e45fe057f9)
+
+- A crash that could occur when reloading the same cell index multiple times [Maxime Ollivier](https://github.com/maxolls) [(0c25779)](https://github.com/Instagram/IGListKit/commit/0c257795e4a6e448fb76b5f15ebc83a1afcbd272)
+
+- A crash in `IGListCollectionViewLayout` that could occur if a nil `indexPath` value was provided [(5ee2207)](https://github.com/Instagram/IGListKit/commit/5ee22079822ef30d05366d58173b09e238b6e44b)
 
 5.0.0
 -----
-
 ### Breaking Changes
 
 - Changed iOS deployment target to 11.0 and macOS deployment target to 10.13 [Kent Sutherland](https://github.com/ksuther) [(#1573)](https://github.com/Instagram/IGListKit/pull/1573)
@@ -92,7 +140,7 @@ The changelog for `IGListKit`. Also see the [releases](https://github.com/instag
 
 - Added `APPLICATION_EXTENSION_API_ONLY` support for `IGListDiffKit` [Peter Meyers](https://github.com/pm-dev) [(#1422)](https://github.com/Instagram/IGListKit/pull/1422)
 
--  Improved performance by deferring requesting objects from the `IGListAdapterDataSource` until just before diffing is executed. If n updates are coalesced into one, this results in just a single request for objects from the data source. Shipped with experiment `IGListExperimentDeferredToObjectCreation` from Ryan Nystrom.  [Maxime Ollivier](https://github.com/maxolls) [(7fc4384)](https://github.com/Instagram/IGListKit/commit/7fc4384a786968027f529ad24b8d821f671d25af)
+- Improved performance by deferring requesting objects from the `IGListAdapterDataSource` until just before diffing is executed. If n updates are coalesced into one, this results in just a single request for objects from the data source. Shipped with experiment `IGListExperimentDeferredToObjectCreation` from Ryan Nystrom.  [Maxime Ollivier](https://github.com/maxolls) [(7fc4384)](https://github.com/Instagram/IGListKit/commit/7fc4384a786968027f529ad24b8d821f671d25af)
 
 - Improved performance by using `reloadData` when there are too many diffing updates. Shipped with experiment `IGListExperimentReloadDataFallback` from Ryan Nystrom. [Maxime Ollivier](https://github.com/maxolls) [(86ecc60)](https://github.com/Instagram/IGListKit/commit/86ecc600856b4199f8a31359140753955f02b5a4)
 
@@ -110,14 +158,14 @@ The changelog for `IGListKit`. Also see the [releases](https://github.com/instag
    - Uses methods instead of blocks to make the callstack easier to read in crash reports.
    - Unblocks `IGListExperimentBackgroundDiffing`
 
+
 - The `IGListExperimentFixCrashOnReloadObjects` experiment succeeded and has officially been implemented into IGListKit. [Maxime Ollivier](https://github.com/maxolls) [(99e24af)](https://github.com/Instagram/IGListKit/commit/99e24afbf872c0d858291084cfa45243f0c9a448)
 
 - Added `IGListExperimentKeepPointerToCollectionViewDataSource` experiment as a potential solution for certain crashes being periodically observed.
 
 - Added `IGListExperimentDisableAnimationOnUpdates` experiment to optionally disable update animations in `IGListAdapter` instances. [(eeb5208)](https://github.com/Instagram/IGListKit/commit/eeb5208911fe340b39d2cc3231d1cd59df16e215)
 
-
-### Fixes 
+### Fixes
 
 - Don't crash if you use `IGListSectionController` without a subclass [Maxime Ollivier](https://github.com/maxolls) [(6ea2b91)](https://github.com/Instagram/IGListKit/commit/6ea2b91150040911bcbe4f98201e36035e26e47f)
 

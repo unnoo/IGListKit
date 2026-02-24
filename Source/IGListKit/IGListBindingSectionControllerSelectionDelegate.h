@@ -8,12 +8,14 @@
 #import <Foundation/Foundation.h>
 
 @class IGListBindingSectionController;
+@class UIContextMenuConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  A protocol that handles cell selection events in an `IGListBindingSectionController`.
  */
+ NS_SWIFT_UI_ACTOR
 NS_SWIFT_NAME(ListBindingSectionControllerSelectionDelegate)
 @protocol IGListBindingSectionControllerSelectionDelegate <NSObject>
 
@@ -60,6 +62,23 @@ NS_SWIFT_NAME(ListBindingSectionControllerSelectionDelegate)
 - (void)sectionController:(IGListBindingSectionController *)sectionController
 didUnhighlightItemAtIndex:(NSInteger)index
                 viewModel:(id)viewModel;
+
+@optional
+
+/**
+ Tells the delegate that a cell has requested a menu configuration.
+
+ @param sectionController The section controller the request of a menu configuration occurred in.
+ @param index The index of the cell that is being longed tap.
+ @param point The point of the tap on the cell.
+ @param viewModel The view model that was bound to the cell.
+ 
+ @return An object that conforms to `UIContextMenuConfiguration`.
+ */
+- (UIContextMenuConfiguration * _Nullable)sectionController:(IGListBindingSectionController *)sectionController
+                     contextMenuConfigurationForItemAtIndex:(NSInteger)index
+                                                      point:(CGPoint)point
+                                                  viewModel:(id)viewModel API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos);
 
 @end
 

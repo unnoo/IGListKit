@@ -12,6 +12,7 @@
 #import <vector>
 
 #import "IGListCompatibility.h"
+#import "IGListMacros.h"
 
 #import "IGListIndexPathResultInternal.h"
 #import "IGListIndexSetResultInternal.h"
@@ -213,6 +214,8 @@ static id IGListDiffing(BOOL returnIndexPaths,
                         entry->updated = YES;
                     }
                     break;
+                default /* unexpected */:
+                    IGLK_UNEXPECTED_SWITCH_CASE_ABORT(IGListDiffOption, option);
             }
         }
         if (originalIndex != NSNotFound
@@ -294,7 +297,7 @@ static id IGListDiffing(BOOL returnIndexPaths,
         addIndexToMap(returnIndexPaths, toSection, i, newArray[i], newMap);
     }
 
-    NSCAssert((oldCount + [mInserts count] - [mDeletes count]) == newCount,
+    NSCAssert((oldCount + (NSInteger)[mInserts count] - (NSInteger)[mDeletes count]) == newCount,
               @"Sanity check failed applying %lu inserts and %lu deletes to old count %li equaling new count %li",
               (unsigned long)[mInserts count], (unsigned long)[mDeletes count], (long)oldCount, (long)newCount);
 

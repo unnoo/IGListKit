@@ -60,6 +60,13 @@
     self.wasUnhighlighted = YES;
 }
 
+#if !TARGET_OS_TV
+- (UIContextMenuConfiguration *)contextMenuConfigurationForItemAtIndex:(NSInteger)index point:(CGPoint)point {
+    self.requestedContextMenu = YES;
+    return nil;
+}
+#endif
+
 #pragma mark - IGListDisplayDelegate
 
 - (void)listAdapter:(IGListAdapter *)listAdapter willDisplaySectionController:(IGListSectionController *)sectionController {

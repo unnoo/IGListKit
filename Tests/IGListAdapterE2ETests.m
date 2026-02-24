@@ -32,6 +32,7 @@
 
 - (void)setUp {
     self.workingRangeSize = 2;
+
     self.dataSource = [IGTestDelegateDataSource new];
     [super setUp];
 }
@@ -587,6 +588,7 @@
     [self waitForExpectationsWithTimeout:30 handler:nil];
 }
 
+#if !TARGET_OS_TV
 - (void)test_whenContentOffsetChanges_withPerformUpdates_thatCollectionViewWorks {
     // this test layout changes the offset in -prepareLayout which occurs somewhere between the update block being
     // applied and the completion block
@@ -611,6 +613,7 @@
     }];
     [self waitForExpectationsWithTimeout:30 handler:nil];
 }
+#endif
 
 - (void)test_whenReloadingItems_withNewItemInstances_thatSectionControllersReceiveNewInstances {
     [self setupWithObjects:@[
@@ -820,10 +823,12 @@
         genTestObject(@2, @2),
     ];
 
+    IGTestCell *const cell = (IGTestCell*)[self.collectionView cellForItemAtIndexPath:genIndexPath(0, 0)];
     id mockDisplayHandler = [OCMockObject mockForProtocol:@protocol(IGListAdapterDelegate)];
     self.adapter.delegate = mockDisplayHandler;
 
     [[mockDisplayHandler expect] listAdapter:self.adapter didEndDisplayingObject:object atIndex:0];
+    [[mockDisplayHandler expect] listAdapter:self.adapter didEndDisplayingObject:object cell: cell atIndexPath: [NSIndexPath indexPathForItem:0 inSection:0]];
 
     XCTestExpectation *expectation = genExpectation;
     [self.adapter performUpdatesAnimated:YES completion:^(BOOL finished2) {
@@ -2665,7 +2670,7 @@
     updater.adaptiveDiffingExperimentConfig = (IGListAdaptiveDiffingExperimentConfig) {
         .enabled = YES,
     };
-    
+
     [self setupWithObjects:@[
         genTestObject(@1, @1),
         genTestObject(@2, @2),
@@ -2696,7 +2701,7 @@
     updater.adaptiveCoalescingExperimentConfig = (IGListAdaptiveCoalescingExperimentConfig) {
         .enabled = YES,
     };
-    
+
     [self setupWithObjects:@[
         genTestObject(@1, @1),
         genTestObject(@2, @2),
@@ -2717,6 +2722,118 @@
         XCTAssertEqual([self.collectionView numberOfItemsInSection:1], 1);
         XCTAssertEqual([self.collectionView numberOfItemsInSection:2], 3);
         XCTAssertEqual([self.collectionView numberOfItemsInSection:3], 4);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30 handler:nil];
+}
+
+- (void)test_whenPerformingUpdates_withAdaptiveDiffingHigherQOS_thatCollectionViewUpdates {
+    IGListAdapterUpdater *updater = (IGListAdapterUpdater *)self.updater;
+    updater.allowsBackgroundDiffing = YES;
+    updater.adaptiveDiffingExperimentConfig = (IGListAdaptiveDiffingExperimentConfig) {
+        .enabled = YES,
+        .higherQOSEnabled = YES,
+        .maxItemCountToRunOnMain = 0,
+        .lowerPriorityWhenViewNotVisible = NO
+    };
+
+    [self setupWithObjects:@[
+        genTestObject(@1, @1),
+        genTestObject(@2, @2),
+    ]];
+
+    self.dataSource.objects = @[
+        genTestObject(@2, @2),
+        genTestObject(@3, @3),
+    ];
+
+    XCTestExpectation *expectation = genExpectation;
+    [self.adapter performUpdatesAnimated:YES completion:^(BOOL finished) {
+        XCTAssertEqual([self.collectionView numberOfSections], 2);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30 handler:nil];
+}
+
+- (void)test_whenPerformingUpdates_withAdaptiveDiffingLowerPriorityWhenNotVisible_thatCollectionViewUpdates {
+    IGListAdapterUpdater *updater = (IGListAdapterUpdater *)self.updater;
+    updater.allowsBackgroundDiffing = YES;
+    updater.adaptiveDiffingExperimentConfig = (IGListAdaptiveDiffingExperimentConfig) {
+        .enabled = YES,
+        .higherQOSEnabled = NO,
+        .maxItemCountToRunOnMain = 0,
+        .lowerPriorityWhenViewNotVisible = YES
+    };
+
+    // Remove from window to make it "not visible"
+    [self.collectionView removeFromSuperview];
+
+    [self setupWithObjects:@[
+        genTestObject(@1, @1),
+        genTestObject(@2, @2),
+    ]];
+
+    self.dataSource.objects = @[
+        genTestObject(@2, @2),
+        genTestObject(@3, @3),
+    ];
+
+    XCTestExpectation *expectation = genExpectation;
+    [self.adapter performUpdatesAnimated:NO completion:^(BOOL finished) {
+        XCTAssertEqual([self.collectionView numberOfSections], 2);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30 handler:nil];
+}
+
+- (void)test_whenPerformingUpdates_withAdaptiveDiffingSmallItemCount_thatDiffRunsOnMain {
+    IGListAdapterUpdater *updater = (IGListAdapterUpdater *)self.updater;
+    updater.allowsBackgroundDiffing = YES;
+    updater.adaptiveDiffingExperimentConfig = (IGListAdaptiveDiffingExperimentConfig) {
+        .enabled = YES,
+        .higherQOSEnabled = NO,
+        .maxItemCountToRunOnMain = 100, // Item count is under this threshold
+        .lowerPriorityWhenViewNotVisible = NO
+    };
+
+    [self setupWithObjects:@[
+        genTestObject(@1, @1),
+    ]];
+
+    self.dataSource.objects = @[
+        genTestObject(@1, @1),
+        genTestObject(@2, @2),
+    ];
+
+    XCTestExpectation *expectation = genExpectation;
+    [self.adapter performUpdatesAnimated:YES completion:^(BOOL finished) {
+        XCTAssertEqual([self.collectionView numberOfSections], 2);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30 handler:nil];
+}
+
+- (void)test_whenPerformingUpdates_withAdaptiveDiffingBackgroundDisabled_thatDiffRunsOnMain {
+    IGListAdapterUpdater *updater = (IGListAdapterUpdater *)self.updater;
+    updater.allowsBackgroundDiffing = NO;
+    updater.adaptiveDiffingExperimentConfig = (IGListAdaptiveDiffingExperimentConfig) {
+        .enabled = YES,
+        .higherQOSEnabled = YES,
+        .maxItemCountToRunOnMain = 0,
+        .lowerPriorityWhenViewNotVisible = YES
+    };
+
+    [self setupWithObjects:@[
+        genTestObject(@1, @1),
+    ]];
+
+    self.dataSource.objects = @[
+        genTestObject(@2, @2),
+    ];
+
+    XCTestExpectation *expectation = genExpectation;
+    [self.adapter performUpdatesAnimated:YES completion:^(BOOL finished) {
+        XCTAssertEqual([self.collectionView numberOfSections], 1);
         [expectation fulfill];
     }];
     [self waitForExpectationsWithTimeout:30 handler:nil];

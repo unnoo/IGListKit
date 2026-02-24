@@ -283,7 +283,8 @@
     XCTAssertTrue([visibleSectionControllers containsObject:[self.adapter sectionControllerForObject:@4]]);
 }
 
-- (void)test_withEmptySectionPlusFooter_thatVisibleSectionControllersAreCorrect {
+#if !TARGET_OS_TV
+- (void) test_withEmptySectionPlusFooter_thatVisibleSectionControllersAreCorrect {
     self.dataSource.objects = @[@0];
     [self.adapter reloadDataWithCompletion:nil];
     IGTestSupplementarySource *supplementarySource = [IGTestSupplementarySource new];
@@ -299,6 +300,7 @@
     XCTAssertTrue([visibleSectionControllers count] == 1);
     XCTAssertTrue(visibleSectionControllers.firstObject.supplementaryViewSource == supplementarySource);
 }
+#endif
 
 - (void)test_whenCellsExtendBeyondBounds_thatVisibleCellsExistForSectionControllers {
     self.dataSource.objects = @[@2, @3, @4, @5, @6];
@@ -476,6 +478,7 @@
     XCTAssertNil([self.collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:[NSIndexPath indexPathForItem:0 inSection:1]]);
 }
 
+#if !TARGET_OS_TV
 - (void)test_whenSupplementarySourceSupportsFooter_withNibs_thatHeaderViewsAreNil {
     self.dataSource.objects = @[@1, @2];
     [self.adapter reloadDataWithCompletion:nil];
@@ -499,6 +502,7 @@
     XCTAssertNil([self.collectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathForItem:0 inSection:1]]);
     XCTAssertNil([self.collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:[NSIndexPath indexPathForItem:0 inSection:1]]);
 }
+#endif
 
 - (void)test_whenAdapterReleased_withSectionControllerStrongRefToCell_thatSectionControllersRelease {
     __weak id weakCollectionView = nil, weakAdapter = nil, weakSectionController = nil;
@@ -613,6 +617,70 @@
     NSArray *visibleObjects = [[self.adapter visibleObjects] sortedArrayUsingSelector:@selector(compare:)];
     NSArray *expectedObjects = @[@3, @4, @5];
     XCTAssertEqualObjects(visibleObjects, expectedObjects);
+}
+
+- (void)test_whenAdapterUpdated_withObjectsOverflow_thatIndexesOfVisibleObjectsIsCorrect {
+    // each section controller returns n items sized 100x10
+    self.dataSource.objects = @[@1, @2, @3, @4, @5, @6];
+    [self.adapter reloadDataWithCompletion:nil];
+    self.collectionView.contentOffset = CGPointMake(0, 30);
+    [self.collectionView layoutIfNeeded];
+
+    NSIndexSet *visibleIndexes = [self.adapter indexesOfVisibleObjects];
+    // Objects @3, @4, @5 are visible, which are at indexes 2, 3, 4
+    NSMutableIndexSet *expectedIndexes = [NSMutableIndexSet indexSet];
+    [expectedIndexes addIndex:2];
+    [expectedIndexes addIndex:3];
+    [expectedIndexes addIndex:4];
+    XCTAssertEqualObjects(visibleIndexes, expectedIndexes);
+}
+
+- (void)test_whenAdapterUpdated_thatLayoutAttributesForItemAtIndexIsCorrect {
+    // each section controller returns n items sized 100x10
+    self.dataSource.objects = @[@2, @3];
+    [self.adapter reloadDataWithCompletion:nil];
+    [self.collectionView layoutIfNeeded];
+
+    IGListSectionController *controller = [self.adapter sectionControllerForObject:@2];
+    UICollectionViewLayoutAttributes *attributes = [self.adapter layoutAttributesForItemAtIndex:0 sectionController:controller];
+    XCTAssertNotNil(attributes);
+    XCTAssertEqual(attributes.indexPath.section, 0);
+    XCTAssertEqual(attributes.indexPath.item, 0);
+}
+
+- (void)test_whenAdapterUpdated_thatIndexPathForItemAtPointIsCorrect {
+    // each section controller returns n items sized 100x10
+    // @2 has 2 items (y=0-20), @3 has 3 items (y=20-50)
+    self.dataSource.objects = @[@2, @3];
+    [self.adapter reloadDataWithCompletion:nil];
+    [self.collectionView layoutIfNeeded];
+
+    // Point at (50, 5) should be in section 0, item 0 (y=0-10)
+    NSIndexPath *indexPath = [self.adapter indexPathForItemAtPoint:CGPointMake(50, 5)];
+    XCTAssertNotNil(indexPath);
+    XCTAssertEqual(indexPath.section, 0);
+    XCTAssertEqual(indexPath.item, 0);
+
+    // Point at (50, 15) should be in section 0, item 1 (y=10-20)
+    NSIndexPath *indexPath2 = [self.adapter indexPathForItemAtPoint:CGPointMake(50, 15)];
+    XCTAssertNotNil(indexPath2);
+    XCTAssertEqual(indexPath2.section, 0);
+    XCTAssertEqual(indexPath2.item, 1);
+}
+
+- (void)test_whenAdapterUpdated_thatConvertPointFromViewIsCorrect {
+    self.dataSource.objects = @[@1];
+    [self.adapter reloadDataWithCompletion:nil];
+    [self.collectionView layoutIfNeeded];
+
+    // Create a subview offset from the collection view
+    UIView *subview = [[UIView alloc] initWithFrame:CGRectMake(10, 20, 50, 50)];
+    [self.collectionView addSubview:subview];
+
+    // Point (0, 0) in subview should convert to (10, 20) in collection view
+    CGPoint convertedPoint = [self.adapter convertPoint:CGPointZero fromView:subview];
+    XCTAssertEqual(convertedPoint.x, 10);
+    XCTAssertEqual(convertedPoint.y, 20);
 }
 
 - (void)test_whenAdapterUpdated_fetchingCellIsValid {
@@ -1328,6 +1396,25 @@
     XCTAssertFalse(s2.wasSelected);
 }
 
+- (void)test_whenSelectingCell_withAutoDeselectEnabled_thatCellIsDeselected {
+    self.dataSource.objects = @[@1, @1, @1];
+    [self.adapter reloadDataWithCompletion:nil];
+    self.adapter.autoDeselectEnabled = YES;
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+
+    // Select a cell
+    [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    // Make sure the selection worked (doesn't call delegate)
+    XCTAssertEqual([[self.collectionView indexPathsForSelectedItems] count], 1);
+
+    // Manually call delegate, which should auto-deselect
+    [self.adapter collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+
+    // Make sure it was really deselection on the view too
+    XCTAssertEqual([[self.collectionView indexPathsForSelectedItems] count], 0);
+}
+
 - (void)test_whenDeselectingCell_thatCollectionViewDelegateReceivesMethod {
     self.dataSource.objects = @[@0, @1, @2];
     [self.adapter reloadDataWithCompletion:nil];
@@ -1628,7 +1715,7 @@
     [mockDelegate verify];
 }
 
-- (void)test_whenUnlighlightingCell_thatSectionControllerReceivesMethod {
+- (void)test_whenUnhighlightingCell_thatSectionControllerReceivesMethod {
     self.dataSource.objects = @[@0, @1, @2];
     [self.adapter reloadDataWithCompletion:nil];
 
@@ -1645,6 +1732,42 @@
     XCTAssertFalse(s1.wasUnhighlighted);
     XCTAssertFalse(s2.wasUnhighlighted);
 }
+
+#if !TARGET_OS_TV
+- (void)test_whenContextMenuAskedCell_thatCollectionViewDelegateReceivesMethod API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos) {
+    self.dataSource.objects = @[@0, @1, @2];
+    [self.adapter reloadDataWithCompletion:nil];
+
+    id mockDelegate = [OCMockObject mockForProtocol:@protocol(UICollectionViewDelegate)];
+    self.adapter.collectionViewDelegate = mockDelegate;
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    [[mockDelegate expect] collectionView:self.collectionView contextMenuConfigurationForItemAtIndexPath:indexPath point:CGPointZero];
+
+    // simulates the collectionview telling its delegate that it needs the context menu configuration
+    [self.adapter collectionView:self.collectionView contextMenuConfigurationForItemAtIndexPath:indexPath point:CGPointZero];
+
+    [mockDelegate verify];
+}
+
+- (void)test_whenContextMenuAskedCell_thatSectionControllerReceivesMethod API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos) {
+    self.dataSource.objects = @[@0, @1, @2];
+    [self.adapter reloadDataWithCompletion:nil];
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+
+    // simulates the collectionview telling its delegate that it needs the context menu configuration
+    [self.adapter collectionView:self.collectionView contextMenuConfigurationForItemAtIndexPath:indexPath point:CGPointZero];
+
+    IGListTestSection *s0 = [self.adapter sectionControllerForObject:@0];
+    IGListTestSection *s1 = [self.adapter sectionControllerForObject:@1];
+    IGListTestSection *s2 = [self.adapter sectionControllerForObject:@2];
+
+    XCTAssertTrue(s0.requestedContextMenu);
+    XCTAssertFalse(s1.requestedContextMenu);
+    XCTAssertFalse(s2.requestedContextMenu);
+}
+#endif
 
 - (void)test_whenDataSourceDoesntHandleObject_thatObjectIsDropped {
     // IGListTestAdapterDataSource does not handle NSStrings

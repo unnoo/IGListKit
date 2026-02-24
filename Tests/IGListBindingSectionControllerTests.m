@@ -196,6 +196,18 @@
     XCTAssertEqualObjects(section.unhighlightedViewModel, @"seven");
 }
 
+
+#if !TARGET_OS_TV
+- (void)test_whenContextMenuAskedCell_thatCorrectViewModelRetrieved API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos) {
+    [self setupWithObjects:@[
+                             [[IGTestDiffingObject alloc] initWithKey:@1 objects:@[@7, @"seven"]],
+                             ]];
+    [self.adapter collectionView:self.collectionView contextMenuConfigurationForItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0] point:CGPointZero];
+    IGTestDiffingSectionController *section = [self.adapter sectionControllerForObject:self.dataSource.objects.firstObject];
+    XCTAssertEqualObjects(section.contextMenuViewModel, @"seven");
+}
+#endif
+
 - (void)test_whenDeselectingCell_withoutImplementation_thatNoOps {
     [self setupWithObjects:@[
                              [[IGTestDiffingObject alloc] initWithKey:@1 objects:@[@7, @"seven"]],
@@ -509,5 +521,37 @@
 
     [self waitForExpectationsWithTimeout:30 handler:nil];
 }
+
+- (void)test_whenSizeForItemAtIndex_withInvalidIndex_thatReturnsCGSizeZero {
+    [self setupWithObjects:@[
+                             [[IGTestDiffingObject alloc] initWithKey:@1 objects:@[@7, @"seven"]],
+                             ]];
+
+    IGTestDiffingSectionController *section = [self.adapter sectionControllerForObject:self.dataSource.objects.firstObject];
+
+    // Index out of bounds (too large)
+    CGSize sizeOutOfBounds = [section sizeForItemAtIndex:100];
+    XCTAssertTrue(CGSizeEqualToSize(sizeOutOfBounds, CGSizeZero));
+
+    // Negative index
+    CGSize sizeNegative = [section sizeForItemAtIndex:-1];
+    XCTAssertTrue(CGSizeEqualToSize(sizeNegative, CGSizeZero));
+}
+
+#if !TARGET_OS_TV
+- (void)test_whenContextMenuConfiguration_withNoSelectionDelegate_thatReturnsNil {
+    [self setupWithObjects:@[
+                             [[IGTestDiffingObject alloc] initWithKey:@1 objects:@[@7, @"seven"]],
+                             ]];
+
+    IGTestDiffingSectionController *section = [self.adapter sectionControllerForObject:self.dataSource.objects.firstObject];
+    section.selectionDelegate = nil;
+
+    if (@available(iOS 13.0, *)) {
+        UIContextMenuConfiguration *config = [section contextMenuConfigurationForItemAtIndex:0 point:CGPointZero];
+        XCTAssertNil(config);
+    }
+}
+#endif
 
 @end

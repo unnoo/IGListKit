@@ -1,9 +1,9 @@
-//
-//  IGListDiffExecutor.m
-//  IGActionRowViewProvider
-//
-//  Created by Maxime Ollivier on 8/1/24.
-//
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 #import "IGListPerformDiff.h"
 
@@ -52,8 +52,8 @@ static dispatch_queue_t _queueForData(IGListTransitionData *data,
     }
     
     // If we don't have a lot of items, the dispatching back and forth can add unnecessary delay.
-    if (data.fromObjects.count < adaptiveConfig.maxItemCountToRunOnMain
-        && data.toObjects.count < adaptiveConfig.maxItemCountToRunOnMain) {
+    if ((NSInteger)data.fromObjects.count < adaptiveConfig.maxItemCountToRunOnMain
+        && (NSInteger)data.toObjects.count < adaptiveConfig.maxItemCountToRunOnMain) {
         return dispatch_get_main_queue();
     }
 

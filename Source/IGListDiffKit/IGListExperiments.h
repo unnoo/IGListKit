@@ -7,7 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if !__has_include(<IGListDiffKit/IGListDiffKit.h>)
 #import "IGListDiff.h"
+#else
+#import <IGListDiffKit/IGListDiff.h>
+#endif
 
 /**
  Bitmask-able options used for pre-release feature testing.
@@ -22,6 +26,8 @@ typedef NS_OPTIONS (NSInteger, IGListExperiment) {
     IGListExperimentThrowOnInconsistencyException = 1 << 3,
     /// Remove the early exit so multiple updates can't happen at once
     IGListExperimentRemoveDataSourceChangeEarlyExit = 1 << 4,
+    /// Avoids creating off-screen cells
+    IGListExperimentFixPreferredFocusedView = 1 << 5,
 };
 
 /**
